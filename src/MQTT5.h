@@ -197,6 +197,7 @@ private:
     void processPacketSubAck(uint8_t flags, uint16_t startIndex, uint16_t contentLength);
     void processPacketUnsub(uint8_t flags, uint16_t startIndex, uint16_t contentLength);
     void processPacketPingResp(uint8_t flags, uint16_t startIndex, uint16_t contentLength);
+    void processPacketDisconnect(uint8_t flags, uint16_t startIndex, uint16_t contentLength);
     
     /**
      * This functions reads a variable byte integer (according to 1.5.5) into value

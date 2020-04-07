@@ -131,6 +131,9 @@ void MQTT5::processPacket(uint8_t packetType, uint8_t flags, uint16_t index, uin
         case CTRL_PINGRESP:
             processPacketPingResp(flags, index, contentLength);
             break;
+        case CTRL_DISCONNECT:
+            processPacketDisconnect(flags, index, contentLength);
+            break;
         default: 
             logger.info("Unkown control packet type %d", packetType);   
             break;
@@ -397,6 +400,12 @@ void MQTT5::processPacketUnsub(uint8_t flags, uint16_t startIndex, uint16_t cont
 void MQTT5::processPacketPingResp(uint8_t flags, uint16_t startIndex, uint16_t contentLength) {
     lastPingSent = 0;
     pingRetries = 0;
+}
+
+void MQTT5::processPacketDisconnect(uint8_t flags, uint16_t startIndex, uint16_t contentLength) {
+    MQTT5_REASON_CODE reason = contentLength == 0 ? MQTT5_REASON_CODE::SUCCESS : (MQTT5_REASON_CODE) buffer[startIndex++];
+    logger.info("Received disconnect from server due to reason %d", (uint8_t) reason);
+    close();
 }
 
 bool MQTT5::connect(uint8_t *ip, uint16_t port, const char *clientId, MQTT5ConnectOptions options) {
