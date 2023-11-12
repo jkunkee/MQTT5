@@ -1017,9 +1017,6 @@ bool MQTT5::writeVariableByteInteger(uint16_t *position, uint16_t length) {
         lenBuf[pos++] = digit;
         llen++;
     } while(len > 0);
-    // Add integer with zero
-    if (len == 0) 
-        llen = 1;
 
     // Check if content fits in buffer
     if ((*position) + llen + length > maxPacketSize) {
